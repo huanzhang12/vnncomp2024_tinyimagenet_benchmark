@@ -7,3 +7,12 @@ this TinyImageNet model is separated as a different benchmark, since not all too
 The model contain FC, conv, and ReLU layers only.
 
 For more information about the models, you can check out the original repo in 2022 (here, we only kept the `TinyImageNet_resnet_medium` model only; other models were removed to reduce complexity).
+
+### Setup 
+
+PyTorch is required, which can be installed by `pip install torch`.
+
+To generate specficiations:
+```bash
+python generate_properties.py SEED
+```
