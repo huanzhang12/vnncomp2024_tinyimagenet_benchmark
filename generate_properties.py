@@ -128,7 +128,7 @@ def create_vnnlib(args, dataset):
 
     normalize = lambda X: (X - mu) / std
 
-    np.random.seed(args.seed)
+    random.seed(args.seed)
     random.shuffle(dataset)
     dataset = dataset[:args.selected_instances]
 
