@@ -112,7 +112,7 @@ def create_vnnlib(args, dataset):
     instance_list = []
     epsilons = [eval(eps) for eps in args.epsilons.split(" ")]
 
-    init_dir = f"./{args.mode}/".replace("generate", "generated").replace("_csv", "")
+    init_dir = args.vnnlib_path
     if not os.path.isdir(init_dir):
         os.mkdir(init_dir)
 
@@ -128,7 +128,7 @@ def create_vnnlib(args, dataset):
 
     normalize = lambda X: (X - mu) / std
 
-    np.random.seed(args.seed)
+    random.seed(args.seed)
     random.shuffle(dataset)
     dataset = dataset[:args.selected_instances]
 
@@ -150,7 +150,7 @@ def create_vnnlib(args, dataset):
                 vnnlib_path, f"{args.timeout}"])
             cnt += 1
 
-    assert os.path.exists(f"./generated_vnnlib/")
+    assert os.path.exists(f"./vnnlib/")
 
     with open(f'./instances.csv', 'a') as f:
         write = csv.writer(f)
@@ -161,12 +161,11 @@ if __name__ == '__main__':
     parser.add_argument('seed', type=int, default=0, help='random seed.') # seed for points selection
     args = parser.parse_args()
     args.epsilons = "1/255"
-    args.mode = "generate_vnnlib_csv"
-    vnnlib_path = "generated_vnnlib"
-    if not os.path.exists(vnnlib_path):
-        os.makedirs(vnnlib_path)
+    args.vnnlib_path = "vnnlib"
+    if not os.path.exists(args.vnnlib_path):
+        os.makedirs(args.vnnlib_path)
     # Remove old files in the vnnlib folder.
-    for vnnlib_file in os.scandir(vnnlib_path):
+    for vnnlib_file in os.scandir(args.vnnlib_path):
         os.remove(vnnlib_file.path)
     if os.path.exists("instances.csv"):
         os.remove("instances.csv")
